@@ -1,15 +1,17 @@
-const Router = require('koa-router')
-const {
-  create
-} = require('../view/user/controller.js')
-// const useRouter = new Router({prefix: './users'})
-const router = new Router()
 
+const userRouter = require('../view/user/router')
 
-router.post('/user', create)
-// router.post('/user', async (ctx) => {
-//   ctx.type = 'html';
-//   ctx.body = '<h1>hello world!</h1>';
-// })
+const useRoutes = function() {
+  this.use(userRouter.routes());
+  this.use(userRouter.allowedMethods());
+}
+// const useRoutes = function() {
+//   fs.readdirSync(__dirname).forEach(file => {
+//     if (file === 'index.js') return;
+//     const router = require(`./${file}`);
+//     this.use(router.routes());
+//     this.use(router.allowedMethods());
+//   })
+// }
 
-module.exports = router
+module.exports = useRoutes;

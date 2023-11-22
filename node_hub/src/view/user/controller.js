@@ -1,7 +1,10 @@
+const UserService = require('./service')
+
 class UserController {
   async create(ctx) {
-    ctx.type = 'html';
-    ctx.body = '<h1>hello world!</h1>';
+    const user = ctx.request.body
+    const result = await UserService.create(user)
+    ctx.body = result
   }
 }
 

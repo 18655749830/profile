@@ -1,6 +1,12 @@
-// const router = require('../../router/index')
+const Router = require('koa-router')
+const {
+  create
+} = require('./controller.js')
+const { verifyUser, handlePassword } = require('./middleware.js')
+// const useRouter = new Router({prefix: './users'})
+const router = new Router()
 
-// router.get('/user', async (ctx) => {
-//   ctx.type = 'html';
-//   ctx.body = '<h1>hello world!</h1>';
-// })
+
+router.post('/user', verifyUser, handlePassword, create)
+
+module.exports = router
