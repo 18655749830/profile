@@ -1,5 +1,6 @@
 const Koa = require('koa')
 const app = new Koa()
+const errorHandler = require('./error-handle.js')
 
 const bodyParser = require('koa-bodyparser')
 const useRoutes = require('../router/index.js')
@@ -7,6 +8,7 @@ const useRoutes = require('../router/index.js')
 app.use(bodyParser());
 app.useRoutes = useRoutes
 app.useRoutes();
+app.on('error', errorHandler)
 // app.use(router.routes())
 // app.use(router.allowedMethods({}))
 
