@@ -1,4 +1,5 @@
 const md5password = require('../../utils/password-handle')
+var jwt = require('jsonwebtoken');
 const { getUserByName } = require('./service')
 const verifyUser = async (ctx, next) => {
   const { name, password } = ctx.request.body
@@ -30,7 +31,10 @@ const verifyLogin = async (ctx, next) => {
     const error = new Error('name_or_password_is_error');
     return ctx.app.emit('error', error, ctx);
   }
-  ctx.body = "登录成功"
+
+  const token = jwt.sign({id: user.id, name: user.name}, 'shhhhh', { expiresIn: '10' });
+  const {id} = user
+  ctx.body = { id, name,token }
 
 
   await next()

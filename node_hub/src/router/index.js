@@ -1,4 +1,3 @@
-
 const userRouter = require('../view/user/router')
 
 const useRoutes = function() {
