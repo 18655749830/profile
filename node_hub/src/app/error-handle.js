@@ -15,6 +15,10 @@ const errorHandler = (error, ctx) => {
       status = 400
       message = '账号或者密码输入错误'
       break
+      case 'token_is_nothing':
+        status = 401
+        message = 'token是无效的，请重新登录'
+        break
     default:
       status = 404
       message = "NOT FOUND"

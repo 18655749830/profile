@@ -1,6 +1,8 @@
 const md5password = require('../../utils/password-handle')
 var jwt = require('jsonwebtoken');
 const { getUserByName } = require('./service')
+const { PRIVATE_KEY, PUBLIC_KEY } = require('../../app/config')
+
 const verifyUser = async (ctx, next) => {
   const { name, password } = ctx.request.body
   // 3.判断这次注册的用户名是没有被注册过
@@ -32,16 +34,38 @@ const verifyLogin = async (ctx, next) => {
     return ctx.app.emit('error', error, ctx);
   }
 
-  const token = jwt.sign({id: user.id, name: user.name}, 'shhhhh', { expiresIn: '10' });
+
+  const token = jwt.sign({id: user.id, name: user.name}, PRIVATE_KEY, {
+     expiresIn: '1h',
+     algorithm: 'RS256' 
+    });
   const {id} = user
   ctx.body = { id, name,token }
-
-
   await next()
+}
+
+// 校验登录
+const verifyAuth = (ctx, next) => {
+  const token = ctx.header.token
+  if(!token) {
+    const error = new Error('token_is_nothing');
+    return ctx.app.emit('error', error, ctx);
+  }
+  try {
+    const res = jwt.verify(token, PUBLIC_KEY, {
+      algorithms: ["RS256"]
+    })
+      ctx.user = res
+  } catch (err) {
+    const error = new Error('token_is_nothing');
+    return ctx.app.emit('error', error, ctx);
+  }
+  next()
 }
 
 module.exports = {
   verifyUser,
   handlePassword,
-  verifyLogin
+  verifyLogin,
+  verifyAuth
 }
