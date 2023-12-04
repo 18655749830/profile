@@ -36,7 +36,7 @@ const verifyLogin = async (ctx, next) => {
 
 
   const token = jwt.sign({id: user.id, name: user.name}, PRIVATE_KEY, {
-     expiresIn: '1h',
+     expiresIn: '2h',
      algorithm: 'RS256' 
     });
   const {id} = user
@@ -45,7 +45,7 @@ const verifyLogin = async (ctx, next) => {
 }
 
 // 校验登录
-const verifyAuth = (ctx, next) => {
+const verifyAuth = async (ctx, next) => {
   const token = ctx.header.token
   if(!token) {
     const error = new Error('token_is_nothing');
@@ -60,7 +60,7 @@ const verifyAuth = (ctx, next) => {
     const error = new Error('token_is_nothing');
     return ctx.app.emit('error', error, ctx);
   }
-  next()
+  await next()
 }
 
 module.exports = {
