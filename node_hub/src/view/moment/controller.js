@@ -8,7 +8,11 @@ class MomentController {
 
     // 将数据更新至数据库
     if (id) {
-      console.log('----');
+      
+      const detail = await momentService.detail(id)
+      if(detail.user.id !== user.id){
+        return ctx.throw(400, '修改人和发布人不一致');
+      }
       const result = await momentService.edit(id, content)
       ctx.body = result
     } else {
@@ -18,6 +22,7 @@ class MomentController {
   }
   async list(ctx, next) {
     // 1.获取数据(offset/size)
+    // return ctx.throw(401, 'name access_denied', { user: '13123' })
     const { offset, size } = ctx.query
     // 2.查询列表
     const result = await momentService.getMomentList(offset, size)
