@@ -10,5 +10,8 @@ router.get('/list', verifyAuth, momentController.list)
 // 动态详情 
 router.get('/detail/:id', momentController.detail)
 
+// 动态添加标签
+router.post('/tag/add',verifyAuth, momentController.tags)
+
 
 module.exports = router

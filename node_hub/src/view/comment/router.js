@@ -9,7 +9,7 @@ router.post('/edit', verifyAuth, commentController.create)
 router.post('/reply', verifyAuth, commentController.reply)
 // 评论列表
 router.post('/list', commentController.list)
-// 评论详情 
+// 
 router.post('/del', verifyAuth, commentController.delete)
 
 

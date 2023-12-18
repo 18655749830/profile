@@ -1,6 +1,7 @@
 const userRouter = require('../view/user/router')
 const momentRouter = require('../view/moment/router')
 const commentRouter = require('../view/comment/router')
+const tagRouter = require('../view/tag/router')
 
 
 const useRoutes = function() {
@@ -12,6 +13,9 @@ const useRoutes = function() {
 
   this.use(commentRouter.routes());
   this.use(commentRouter.allowedMethods());
+
+  this.use(tagRouter.routes());
+  this.use(tagRouter.allowedMethods());
 }
 // const useRoutes = function() {
 //   fs.readdirSync(__dirname).forEach(file => {

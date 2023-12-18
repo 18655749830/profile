@@ -16,11 +16,21 @@ class CommentService {
     const [result] = await connection.execute(statement, [content, momentId, userId, commentId]);
     return result;
   }
-  async list(offset="0", size="1000") {
-    console.log('---',offset,size);
-    const statement = `SELECT content,id FROM comment LIMIT ?,?;`
+  async list(id, offset="0", size="1000") {
+    let statement = `
+      SELECT c.content, c.id, c.moment_id, c.comment_id,
+        JSON_OBJECT('id', u.id,'name', u.name) user
+      FROM comment c
+      LEFT JOIN user u ON u.id = c.user_id
+      WHERE c.moment_id = ?;
+    `
+    // if(id){
+    //    statement = `SELECT content,id FROM comment WHERE moment_id = ?;`
+    // }else{
+    //    statement = `SELECT content,id FROM comment LIMIT ?,?;`
+    // }
     try {
-      const [result] = await connection.execute(statement, [offset,size])
+      const [result] = await connection.execute(statement, [id])
       return result
     } catch (error) {
       return error

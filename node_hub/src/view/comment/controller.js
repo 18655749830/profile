@@ -22,8 +22,8 @@ class CommentController {
     return ctx.body = result
   }
   async list(ctx){
-    const { offset, size } = ctx.request.body
-    const result = await commentService.list(offset, size)
+    const { offset, size, id } = ctx.request.body
+    const result = await commentService.list(id,offset, size)
     return ctx.body = result
   }
   async delete(ctx, next) {

@@ -22,7 +22,7 @@ pool.getConnection(function(err, conn) {
     if(err){
       console.log('连接失败：', err);
     }else{
-      console.log('数据库连接成功');
+      console.log('------');
     }
   })
   return

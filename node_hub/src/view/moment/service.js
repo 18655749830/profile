@@ -35,6 +35,11 @@ class MomentService {
     const [result] = await connection.execute(statement, [id])
     return result[0]
   }
+  async tagsToMoment(momentId, tagId){
+    const statement = `INSERT INTO moment_tag (moment_id, tag_id) VALUES (?, ?);`
+    const [result] = await connection.execute(statement, [momentId, tagId])
+    return result
+  }
 
 }
 
