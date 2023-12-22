@@ -44,7 +44,7 @@ const verifyLogin = async (ctx, next) => {
   await next()
 }
 
-// 校验登录
+// 校验用户
 const verifyAuth = async (ctx, next) => {
   const token = ctx.header.token
   if(!token) {

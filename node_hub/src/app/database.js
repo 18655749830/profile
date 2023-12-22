@@ -22,7 +22,7 @@ pool.getConnection(function(err, conn) {
     if(err){
       console.log('连接失败：', err);
     }else{
-      console.log('------');
+      // console.log('------');
     }
   })
   return
