@@ -11,7 +11,7 @@ class MomentService {
     const [result] = await connection.execute(statement, [content, id])
     return result
   }
-  async getMomentList(offset, size) {
+  async getMomentList(offset='0', size='10') {
     const statement = `
       SELECT 
         m.id id, m.content content, m.createAt createTime, m.updateAt updateTime,
