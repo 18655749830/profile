@@ -1,16 +1,16 @@
 import { useRoutes } from "react-router-dom"
 import routes from '@/router'
 
-import Header from "./components/Header";
-import Footer from "./components/Footer";
+import AppHeader from "./components/AppHeader";
+import AppFooter from "./components/AppFooter";
 
 
 function App() {
   return (
     <div className="App">
-      <Header />
+      <AppHeader />
       { useRoutes(routes) }
-      <Footer />
+      <AppFooter />
     </div>
   );
 }

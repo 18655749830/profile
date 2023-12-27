@@ -3,7 +3,9 @@ import ReactDOM from 'react-dom/client'
 import App from '@/App'
 import { HashRouter } from 'react-router-dom'
 import { Provider } from 'react-redux'
+import { ThemeProvider } from 'styled-components'
 import store from '@/store'
+import theme from './assets/css/theme'
 import '@/assets/css/index.less'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
@@ -11,9 +13,11 @@ root.render(
   // <React.StrictMode>
   <Provider store={store}>
     <Suspense fallback="loading">
-      <HashRouter>
-        <App />
-      </HashRouter>
+      <ThemeProvider theme={theme}>
+        <HashRouter>
+          <App />
+        </HashRouter>
+      </ThemeProvider>
     </Suspense>
   </Provider>
 
