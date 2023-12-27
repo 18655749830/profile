@@ -1,5 +1,10 @@
 import React, { memo, useState, useEffect } from 'react'
 
+import Menus from './components/Menus'
+import RightMenus from './components/RightMenus'
+import Main from './components/Main'
+import Wrap from './style'
+
 const Home = memo(() => {
   // const [highScore, setHighScore] = useState({})
 
@@ -12,9 +17,11 @@ const Home = memo(() => {
   // }, [])
 
   return (
-    <div>
-      Home
-    </div>
+    <Wrap>
+      <Menus />
+      <Main />
+      <RightMenus />
+    </Wrap>
   )
 })
 

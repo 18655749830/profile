@@ -6,6 +6,7 @@ const HeaderWarp = styled.div`
   height: 56px;
   border: 1px solid #e4e4e4;
   box-shadow: 0 1px 1px #e4e4e4;
+  background-color: #fff;
   padding: 0 48px;
   .center{
     width: 600px;
