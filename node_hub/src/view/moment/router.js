@@ -12,6 +12,8 @@ router.get('/detail/:id', momentController.detail)
 
 // 动态添加标签
 router.post('/tag/add',verifyAuth, momentController.tags)
+// 动态点赞/取消
+router.post('/praise',verifyAuth, momentController.praise)
 
 
 module.exports = router

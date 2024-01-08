@@ -1,9 +1,14 @@
 import { getDynamicList } from '@/service'
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import dayjs from 'dayjs'
 
 export const fetchHomeDataAction = createAsyncThunk("fetchdata", (payload, { dispatch }) => {  
   getDynamicList().then(res => {
-    dispatch(changeDynamics(res))
+    const temp = res.map(item => {
+      item.createTime = dayjs(item.createTime).format('YYYY-MM-DD')
+      return item
+    })
+    dispatch(changeDynamics(temp))
   })
 })
 

@@ -40,6 +40,9 @@ const HeaderWarp = styled.div`
       
     }
   }
+  .right{
+    justify-content: flex-end;
+  }
 `
 
 export default HeaderWarp

@@ -14,7 +14,7 @@ const LeftMenu = memo(() => {
   const items = [
     {
       label: userInfo.name,
-      key: 'user',
+      key: 'userName',
       path: '/userInfo',
       icon: userInfo.avatarUrl ? <img src={userInfo.avatarUrl} alt='' /> : <Avatar width={32} height={32} />
     },
@@ -26,14 +26,14 @@ const LeftMenu = memo(() => {
     },
     {
       label: '用户列表',
-      key: 'welcome',
+      key: 'userList',
       isHidden: userInfo.type === 1,
       path: '/userInfo',
       icon: <Avatar width={32} height={32} />
     },
     {
       label: '标签列表',
-      key: 'welcome',
+      key: 'tagList',
       isHidden: userInfo.type === 1,
       path: '/userInfo',
       icon: <Avatar width={32} height={32} />
@@ -47,7 +47,7 @@ const LeftMenu = memo(() => {
     <Wrap>
       {
         items.map(item => (
-          <li>
+          <li key={item.key}>
             { item.icon }
             <span className='ml10'>{item.label}</span>
           </li>

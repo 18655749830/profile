@@ -13,12 +13,23 @@ class MomentService {
   }
   async getMomentList(offset='0', size='10') {
     const statement = `
-      SELECT 
-        m.id id, m.content content, m.createAt createTime, m.updateAt updateTime,
-        JSON_OBJECT('id', u.id, 'name', u.name) user
-      FROM moment m
-      LEFT JOIN user u ON m.user_id = u.id
-      LIMIT ?, ?;
+    SELECT 
+      m.id id,m.content content,m.createAt createTime,m.updateAt updateTime,
+      JSON_OBJECT('id',u.id,'name',u.NAME,'avatarUrl', u.avatar_url) user,
+      IF(COUNT(t.id),JSON_ARRAYAGG(
+        JSON_OBJECT('id', t.id, 'name', t.name)
+        ), JSON_ARRAY()) tags,
+      (SELECT COUNT(*) FROM comment c WHERE c.moment_id = m.id ) commentCount,
+      (SELECT JSON_ARRAYAGG(user_id) 
+        FROM moment_praise mp WHERE m.id = mp.moment_id) praises,
+      (SELECT JSON_ARRAYAGG(CONCAT('http://localhost:80/upload/picture/', picture.filename)) 
+    FROM picture WHERE m.id = picture.moment_id) images
+    FROM moment m
+    LEFT JOIN USER u ON m.user_id=u.id 
+    LEFT JOIN moment_tag mt ON m.id = mt.moment_id
+    LEFT JOIN tag t ON mt.tag_id = t.id
+    GROUP BY m.id
+    LIMIT ?, ?;
     `
     const [result] = await connection.execute(statement, [offset, size])
     return result
@@ -53,6 +64,22 @@ class MomentService {
     const statement = `INSERT INTO moment_tag (moment_id, tag_id) VALUES (?, ?);`
     const [result] = await connection.execute(statement, [momentId, tagId])
     return result
+  }
+  // 点赞相关
+  async getUsersById(momentId) {
+    const  statement = `SELECT * FROM moment_praise WHERE moment_id = ?`
+    const [res] = await connection.execute(statement, [momentId])
+    return res
+  }
+  async praiseCreate(moment_id, user_id) {
+    const  statement = `INSERT INTO moment_praise (moment_id, user_id) VALUES (?,?);`
+    const [res] = await connection.execute(statement, [moment_id, user_id])
+    return res
+  }
+  async praiseDelete(moment_id, user_id) {
+    const  statement = `DELETE FROM moment_praise WHERE moment_id = ? AND user_id = ?;`
+    const [res] = await connection.execute(statement, [moment_id, user_id])
+    return res
   }
 
 }

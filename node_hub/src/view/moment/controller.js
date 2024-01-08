@@ -58,13 +58,26 @@ class MomentController {
 
     // 添加
     for(const tag of tagArr){
-      console.log(tag);
       const res = await momentService.tagsToMoment(momentId, tag.id)
-      console.log(res);
     }
 
     // 添加成功
     ctx.body = `动态Id：${momentId}成功添加标签${tagArr.map(i=>i.name).join(',')}`
+  }
+  async praise(ctx) {
+    const { momentId } = ctx.request.body
+    const { user } = ctx
+
+    // 判断该用户是否已经对其进行点赞
+    const result = await momentService.getUsersById(momentId)
+    const temp = result.find(i => user.id === i.user_id)
+    if(temp && temp.user_id){
+      await momentService.praiseDelete(momentId, user.id)
+      ctx.body = `取消点赞`
+    }else{
+      await momentService.praiseCreate(momentId, user.id)
+      ctx.body = `点赞成功`
+    }
   }
 }
 
