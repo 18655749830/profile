@@ -40,7 +40,7 @@ const verifyLogin = async (ctx, next) => {
      algorithm: 'RS256' 
     });
   const {id} = user
-  ctx.body = { id, name,token }
+  ctx.body = { id, name,token, avatarUrl: user.avatar_url }
   await next()
 }
 

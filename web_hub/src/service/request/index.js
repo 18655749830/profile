@@ -1,5 +1,6 @@
 import axios from "axios";
 import { BASE_URL, TIMEOUT } from "./config"
+import { CustomMessage } from '@/utils/globle'
 
 class Request {
   constructor(baseURL, timeout) {
@@ -7,11 +8,16 @@ class Request {
       baseURL,
       timeout
     })
-
+    this.instance.interceptors.request.use(config => {
+      config.headers.token = localStorage.getItem('token') || ''
+      return config
+    })
     this.instance.interceptors.response.use((res) => {
       return res.data
     }, err => {
-      return err
+      CustomMessage.warning(err.response.data)
+      // return err.response.data
+      console.log(err);
     })
   }
 

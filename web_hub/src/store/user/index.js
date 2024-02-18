@@ -1,18 +1,44 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { loginRequest } from '@/service'
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 
+export const fetchLoginAction = createAsyncThunk("fetchdata", async (payload, { dispatch }) => {
+  try {
+    const loginResult = await loginRequest(payload)
+    const temp = loginResult
+    localStorage.setItem('userInfo', JSON.stringify(temp))
+    localStorage.setItem('token', temp.token)
+    if(payload.remember){
+      localStorage.setItem('name', payload.name)
+      localStorage.setItem('password', payload.password)
+      localStorage.setItem('remember', payload.remember)
+    }else{
+      localStorage.removeItem('name')
+      localStorage.removeItem('password')
+    }
+    dispatch(loginAction(temp))
+  } catch (error) {
+    console.log(error);
+  }
+})
 
 const userSlice = createSlice({
   name: "user",
   initialState: {
-   userInfo: {
-    name: '刘抗冻',
-    type: '1',
-    avatarUrl: 'https://img1.baidu.com/it/u=3527010816,1804134246&fm=253&app=138&size=w931&n=0&f=JPEG&fmt=auto?sec=1703782800&t=e6eb0b76f6355c0278664168804969cd'
-   }
+   userInfo: {}
   },
   reducers: {
-
+    loginAction(state, { payload }) {
+      state.userInfo = payload
+    },
+    logoutAction(state){
+      state.userInfo = {}
+    }
   }
 })
+
+export const { 
+  loginAction,
+  logoutAction,
+} = userSlice.actions
 
 export default userSlice.reducer

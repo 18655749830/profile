@@ -1,13 +1,40 @@
-import React, { memo } from 'react'
+import React, { memo, useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import Avatar from '@/assets/svg/default_avatar'
-
+import DefaultAvatar from '@/assets/svg/default_avatar'
+import { useDispatch, useSelector } from 'react-redux'
+import { logoutAction } from '@/store/user'
 import Wrap from './style'
+
+import { Avatar } from 'antd';
 
 const Header = memo(() => {
   const navigate = useNavigate()
+  const dispatch = useDispatch()
+
+  const userInfo = useSelector(state => state.user.userInfo)
+  // useEffect(() => {
+  //   window.addEventListener('click', () => {
+  //     setUserInfoFlag(false)
+  //   }, true)
+  // })
   const changeRoute = (path) => {
     navigate(path)
+  }
+  // 用户信息相关
+
+
+  const [userInfoFlag, setUserInfoFlag] = useState(false)
+  const AvatarClick = (val) => {
+    setUserInfoFlag(!userInfoFlag)
+  }
+  const handleQuit = () => {
+    const name = localStorage.getItem('name') || ''
+    const password = localStorage.getItem('password') || ''
+    localStorage.clear()
+    dispatch(logoutAction())
+    localStorage.setItem('name', name)
+    localStorage.setItem('password', password)
+    navigate('/login')
   }
   return (
     <Wrap>
@@ -23,8 +50,17 @@ const Header = memo(() => {
         <div className='search_wrap'>搜索</div>
       </div>
       <div className='right'>
-        <Avatar />
-        <div className='ml20 publish'>发布</div>
+        <div className='mr20 publish'>发布</div>
+        <div onClick={() => AvatarClick()} className='avatar_wrap'>
+          { userInfo.avatarUrl ? <Avatar size={40} src={userInfo.avatarUrl} /> : <DefaultAvatar className='avatar' /> }
+          {
+            userInfoFlag
+            &&
+            <div className='madol_wrap'>
+              <div className='line'>{userInfo.name || '真实姓名'}</div>
+              <div onClick={handleQuit} className='quit_btn line'>退出登录</div>
+            </div>}
+        </div>
       </div>
     </Wrap >
   )
