@@ -4,6 +4,7 @@ const Wrap = styled.div`
   .app_main{
     padding: 12px;
     display: flex;
+    
   }
   
 `

@@ -45,14 +45,14 @@ const Header = memo(() => {
         </svg>
       </div>
       <div className='center'>
-        <div className='item' onClick={() => changeRoute('/')}>发现</div>
-        <div className='item' onClick={() => changeRoute('/subscriptions')}>关注</div>
+        <div className='item' onClick={() => changeRoute('/main')}>发现</div>
+        <div className='item' onClick={() => changeRoute('/main/subscriptions')}>关注</div>
         <div className='search_wrap'>搜索</div>
       </div>
       <div className='right'>
         <div className='mr20 publish'>发布</div>
         <div onClick={() => AvatarClick()} className='avatar_wrap'>
-          { userInfo.avatarUrl ? <Avatar size={40} src={userInfo.avatarUrl} /> : <DefaultAvatar className='avatar' /> }
+          { userInfo.avatarUrl ? <Avatar className='avatar' size={40} src={userInfo.avatarUrl} /> : <DefaultAvatar className='avatar' /> }
           {
             userInfoFlag
             &&
